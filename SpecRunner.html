@@ -10,9 +10,15 @@
   <script type="text/javascript" src="lib/jasmine-1.1.0/jasmine.js"></script>
   <script type="text/javascript" src="lib/jasmine-1.1.0/jasmine-html.js"></script>
 
+  <!-- include dependencies files here... -->
+  <script type="text/javascript" src="lib/jquery.js"></script>
+  <script type="text/javascript" src="lib/jcanvas.min.js"></script>
+  <script type="text/javascript" src="spec/factories/object_factory.js"></script>
   <!-- include spec files here... -->
+  <script type="text/javascript" src="spec/part_spec.js"></script>
 
   <!-- include source files here... -->
+  <script type="text/javascript" src="javascripts/part.js"></script>
 
   <script type="text/javascript">
     (function() {
@@ -46,5 +52,6 @@
 </head>
 
 <body>
+  <canvas id="main_canvas" width="300" height="500"></canvas>
 </body>
 </html>
