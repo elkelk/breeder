@@ -1,0 +1,33 @@
+Simple usage:
+
+  var definition1 = {
+    width: 15,
+    height: 30,
+    color_r: 237,
+    color_g: 175,
+    color_b: 101,
+    x: 0,
+    y: 0
+  };
+  var definition2 = {
+    width: 17,
+    height: 34,
+    color_r: 237,
+    color_g: 175,
+    color_b: 101,
+    x: 0,
+    y: 0
+  };
+
+  var person1 = new Part("person1", definition1);
+  var person2 = new Part("person2", definition2);
+  var child = person1.reproduce(person2);
+
+Child by default will be the average of the parent (i.e. width = 16).
+Shapes can be nested using a key named "parts".
+The parameters listed are required.
+x and y are relative to the parent container.
+
+Optional parameters include:
+- corner: the corner radius for the shape
+- angle: the rotation angle for the shape
