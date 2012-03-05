@@ -26,7 +26,14 @@ Part.combine = function(part1, part2){
   var new_definition = {parts: {}};
   $.each(part1.values_list, function(){
     if(this == "parts") return;
-    new_definition[this] = (part1[this]() + part2[this]()) / 2;
+    if(this.split("_")[0] == "custom") return;
+    var a = part1[this]();
+    var b = part2[this]();
+    if(part1["custom_" + this] === undefined){
+      new_definition[this] = (a + b) / 2;
+    } else {
+      new_definition[this] = eval(part1["custom_" + this]());
+    }
   });
   $.each(part1.parts_list, function(){
     new_definition.parts[this] = Part.combine(part1[this](), part2[this]());
