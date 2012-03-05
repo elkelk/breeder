@@ -27,7 +27,7 @@ describe("Part", function(){
     console.log(person);
     person.draw("#main_canvas", 100, 100);
     $("#main_canvas").setPixels({
-      x: 108, y: 116,
+      x: 100, y: 110,
       width: 1, height: 1,
       // loop through each pixel
       each: function(px) {
@@ -44,7 +44,7 @@ describe("Part", function(){
     var part = new Part("head", head_definition);
     part.draw("#main_canvas", 100, 100);
     $("#main_canvas").setPixels({
-      x: 208, y: 216,
+      x: 200, y: 200,
       width: 1, height: 1,
       each: function(px) {
         //console.log(px.r + "," + px.g + "," + px.b);

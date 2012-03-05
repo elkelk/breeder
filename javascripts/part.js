@@ -47,14 +47,27 @@ Part.prototype = {
   reproduce: function(mate){
     return new Part(this.name(), Part.combine(this, mate));
   },
+  corner_radius: function(){
+    if (this.corner !== undefined){
+     return this.corner();
+    } else {
+      return this.width() < this.height() ? this.width() : this.height();
+    }
+  },
+  rotation: function(){
+    return this.angle !== undefined ? this.angle() : 0;
+  },
   draw: function(selector, x, y){
-    $(selector).drawEllipse({
+    console.log(this.corner_radius());
+    $(selector).drawRect({
       fillStyle: "rgb(" + this.color_r() + "," + this.color_g() + "," + this.color_b() + ")",
       x: x + this.x() , y: y + this.y(),
       width: this.width(), height: this.height(),
-      fromCenter: false
+      cornerRadius: this.corner_radius(),
+      angle: this.rotation(),
+      fromCenter: true
     });
-    this.draw_parts(selector, x, y);
+    this.draw_parts(selector, x + this.x(), y + this.y());
   },
   draw_parts: function(selector, x, y){
     var $this = this;
