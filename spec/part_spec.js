@@ -23,12 +23,23 @@ describe("Part", function(){
     it("should use the custom method for a part if one exists", function(){
       var head1 = ObjectFactory.head({width: 16, height: 32, custom_width: "a+b"});
       var head2 = ObjectFactory.head({width: 18, height: 36});
-      var definition1 = ObjectFactory.person({parts:{head: head1}});
-      var definition2 = ObjectFactory.person({parts:{head: head2}});
+      var definition1 = ObjectFactory.person({width: 34, parts:{head: head1}});
+      var definition2 = ObjectFactory.person({width: 34, parts:{head: head2}});
       var person1 = new Part("person", definition1);
       var person2 = new Part("person", definition2);
       var child = person1.reproduce(person2);
       expect(child.head().width()).toBe(34);
+      expect(child.head().height()).toBe(34);
+    });
+    it("shouldn't grow bigger than it's parent container", function(){
+      var head1 = ObjectFactory.head({width: 16, height: 32, custom_width: "a+b"});
+      var head2 = ObjectFactory.head({width: 18, height: 36});
+      var definition1 = ObjectFactory.person({width: 18, parts:{head: head1}});
+      var definition2 = ObjectFactory.person({width: 18, parts:{head: head2}});
+      var person1 = new Part("person", definition1);
+      var person2 = new Part("person", definition2);
+      var child = person1.reproduce(person2);
+      expect(child.head().width()).toBe(18);
       expect(child.head().height()).toBe(34);
     });
   });

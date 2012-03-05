@@ -42,6 +42,21 @@
       }
     }, values);
   };
+  function nose_hole(values){
+    return $.extend({}, {
+      width: 7,
+      height: 7,
+      color_r: 217,
+      color_g: 155,
+      color_b: 81,
+      corner: 4,
+      angle: 0,
+      x: -5,
+      y: 0,
+      parts: {
+      }
+    }, values);
+  };
   function nose(values){
     return $.extend({}, {
       width: 10,
@@ -54,6 +69,8 @@
       x: 0,
       y: -15,
       parts: {
+        nose_hole1: nose_hole({}),
+        nose_hole2: nose_hole({x: 5})
       }
     }, values);
   };

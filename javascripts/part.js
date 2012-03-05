@@ -1,28 +1,29 @@
-function Part(name, definition){
-  Part.initialize(this, name, definition);
-}
+function Part(name, definition, parent_width, parent_height){
+  this.name = this._create_get_or_set("name");
+  this.name(name);
+  this.parent_width = this._create_get_or_set("parent_width");
+  this.parent_width(parent_width);
+  this.parent_height = this._create_get_or_set("parent_height");
+  this.parent_height(parent_height);
 
-Part.initialize = function(instance, name, definition){
-  instance.name = instance._create_get_or_set(name);
-  instance.name(name);
-  instance.values_list = [];
-  instance.parts_list = [];
+  this.values_list = [];
+  this.parts_list = [];
   for(var sub_part in definition){
     if(sub_part == "parts") continue;
-    instance["_" + sub_part] = definition[sub_part];
-    instance[sub_part] = instance._create_get_or_set(sub_part);
-    instance.values_list.push(sub_part);
+    this["_" + sub_part] = definition[sub_part];
+    this[sub_part] = this._create_get_or_set(sub_part);
+    this.values_list.push(sub_part);
   }
   if(definition.parts !== undefined){
     for(var part in definition.parts){
-      instance["_" + part] = new Part(part, definition.parts[part])
-      instance[part] = instance._create_get_or_set(part);
-      instance.parts_list.push(part);
+      this["_" + part] = new Part(part, definition.parts[part], this.width(), this.height());
+      this[part] = this._create_get_or_set(part);
+      this.parts_list.push(part);
     }
   }
 };
 
-Part.combine = function(part1, part2){
+Part.combine = function(part1, part2, max_width, max_height){
   var new_definition = {parts: {}};
   $.each(part1.values_list, function(){
     if(this == "parts") return;
@@ -33,10 +34,16 @@ Part.combine = function(part1, part2){
       new_definition[this] = (a + b) / 2;
     } else {
       new_definition[this] = eval(part1["custom_" + this]());
+      if(this == "height" && max_height && new_definition[this] > max_height){
+        new_definition[this] = max_height;
+      }
+      if(this == "width" && max_width && new_definition[this] > max_width){
+        new_definition[this] = max_width;
+      }
     }
   });
   $.each(part1.parts_list, function(){
-    new_definition.parts[this] = Part.combine(part1[this](), part2[this]());
+    new_definition.parts[this] = Part.combine(part1[this](), part2[this](), Math.max(part1.width(), part2.width()), Math.max(part1.height, part2.height()));
   });
   return new_definition;
 }
